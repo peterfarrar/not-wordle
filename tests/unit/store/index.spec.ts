@@ -1,16 +1,10 @@
 import context from '@/store'
 
-describe('words isValidWord', () => {
-  it('returns true if word exists', async () => {
-    expect(await context.dispatch('isValidWord', 'bongo')).toBe(true)
-  })
-
-  it('returns false if word does not exists', async () => {
-    expect(await context.dispatch('isValidWord', 'bxngx')).toBe(false)
-  })
-})
-
 describe('currentLetters', () => {
+  beforeEach(() => {
+    context.state.currentLetters = []
+  })
+
   it('has no letters', () => {
     expect(context.getters.currentLetters.length).toBe(0)
   })
@@ -25,20 +19,34 @@ describe('currentLetters', () => {
     context.dispatch('addLetterToCurrentLetters', 'T')
     context.dispatch('addLetterToCurrentLetters', 'T')
     context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
     expect(context.getters.currentLetters.length).toBe(5)
   })
 
   it('can add no more than five letters', () => {
     context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
     expect(context.getters.currentLetters.length).toBe(5)
   })
 
   it('can remove a letter', () => {
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
     context.commit('removeLetterFromCurrentLetters')
     expect(context.getters.currentLetters.length).toBe(4)
   })
 
   it('can only remove a letter if at least one exists', () => {
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'T')
     context.commit('removeLetterFromCurrentLetters')
     context.commit('removeLetterFromCurrentLetters')
     context.commit('removeLetterFromCurrentLetters')
@@ -49,6 +57,9 @@ describe('currentLetters', () => {
 })
 
 describe('activeRow', () => {
+  beforeEach(() => {
+    context.state.activeRow = 0
+  })
   it('defaults to zero', () => {
     expect(context.getters.activeRow).toBe(0)
   })
@@ -60,6 +71,7 @@ describe('activeRow', () => {
 
   it('can increment again', () => {
     context.commit('incrementActiveRow')
+    context.commit('incrementActiveRow')
     expect(context.getters.activeRow).toBe(2)
   })
 
@@ -68,12 +80,9 @@ describe('activeRow', () => {
     context.commit('incrementActiveRow')
     context.commit('incrementActiveRow')
     context.commit('incrementActiveRow')
+    context.commit('incrementActiveRow')
+    context.commit('incrementActiveRow')
     expect(context.getters.activeRow).toBe(5)
-  })
-
-  it('can be reset to zero', () => {
-    context.commit('resetActiveRow')
-    expect(context.getters.activeRow).toBe(0)
   })
 })
 
@@ -82,11 +91,23 @@ describe('allWords', () => {
     context.state.allWords = []
     context.state.currentLetters = []
   })
+
   it('defaults to empty array', () => {
     expect(context.getters.allWords).toEqual([])
   })
 
-  it('adds an array of 5 Char to the allWords store', () => {
+  it('verifies the five letters are a word in the dictionary before adding them', () => {
+    context.dispatch('addLetterToCurrentLetters', 'S')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'E')
+    context.dispatch('addLetterToCurrentLetters', 'A')
+    context.dispatch('addLetterToCurrentLetters', 'X')
+    context.commit('addCurrentWordToAllWords')
+    expect(context.getters.currentLetters.length).toBe(5)
+    expect(context.getters.allWords).toEqual([])
+  })
+
+  it('adds a valid word to the allWords store and clears currentLetters', () => {
     context.dispatch('addLetterToCurrentLetters', 'S')
     context.dispatch('addLetterToCurrentLetters', 'T')
     context.dispatch('addLetterToCurrentLetters', 'E')

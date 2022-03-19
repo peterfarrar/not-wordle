@@ -2337,6 +2337,7 @@ export default new Set<string>([
   'start',
   'state',
   'stead',
+  'steam',
   'steed',
   'steel',
   'steep',

@@ -39,6 +39,7 @@ export default class Screen extends Vue {
 
   handleKeydown(event: KeyboardEvent): void {
     const key = event.key
+    console.log('Key pressed:', key)
     const currentLetters = this.currentLetters()
     const allWords = this.allWords()
     if (key.length == 1 || isChar(key)) {
@@ -47,6 +48,7 @@ export default class Screen extends Vue {
       }
     }
     if (key == 'Backspace') {
+      console.log('Backspace pressed!')
       if (currentLetters.length > 0) {
         this.removeLetterFromCurrentLetters()
       }

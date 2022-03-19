@@ -20,7 +20,7 @@ import Row from './Row.vue'
   },
   // methods: {
   //   ...mapGetters(['activeRow']),
-  //   ...mapActions(['incrementActiveRow', 'resetActiveRow']),
+  //   ...mapActions(['incrementActiveRow']),
   // },
 })
 export default class Board extends Vue {}

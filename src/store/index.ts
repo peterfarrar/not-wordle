@@ -28,20 +28,19 @@ export default new Vuex.Store({
         state.activeRow++
       }
     },
-    resetActiveRow: (state) => {
-      state.activeRow = 0
-    },
     addCurrentWordToAllWords: (state) => {
       if (state.allWords.length < 6 && state.currentLetters.length == 5) {
-        state.allWords = [
-          ...state.allWords,
-          [
-            ...state.currentLetters.map((letter: Char): TileData => {
-              return { value: letter, status: 'invalid-letter' }
-            }),
-          ],
-        ]
-        state.currentLetters = []
+        if (state.words.has(state.currentLetters.join(''))) {
+          state.allWords = [
+            ...state.allWords,
+            [
+              ...state.currentLetters.map((letter: Char): TileData => {
+                return { value: letter, status: 'invalid-letter' }
+              }),
+            ],
+          ]
+          state.currentLetters = []
+        }
       }
     },
   },
@@ -51,19 +50,11 @@ export default new Vuex.Store({
       context.commit('addLetterToCurrentLetters', payload.toLowerCase())
     },
     removeLetterFromCurrentLetters: (context) => {
-      context.commit('removeLetterToCurrentLetters')
-    },
-    clearCurrentLetters: (context) => {
-      context.commit('clearCurrentLetters')
+      console.log('In Store.removeLetterFromCurrentLetters')
+      context.commit('removeLetterFromCurrentLetters')
     },
     incrementActiveRow: (context) => {
       context.commit('IncrementActiveRow')
-    },
-    resetActiveRow: (context) => {
-      context.commit('resetActiveRow')
-    },
-    isValidWord: (context, payload): boolean => {
-      return context.state.words.has(payload)
     },
     addCurrentWordToAllWords: (context) => {
       context.commit('addCurrentWordToAllWords')

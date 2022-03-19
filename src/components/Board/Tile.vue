@@ -6,12 +6,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Char } from '@/types'
 
 @Component
 export default class Tile extends Vue {
   bgcolor = 'empty'
   classes = `tile ${this.bgcolor}`
-  @Prop() private letter!: string
+  @Prop() private letter!: Char
 }
 </script>
 

@@ -3,8 +3,8 @@ import { shallowMount, Wrapper } from '@vue/test-utils'
 import Tile from '@/components/Board/Tile.vue'
 import { Char } from '@/types'
 
-function* currentPropsDataGenerator(): IterableIterator<number | void> {
-  const currentPropsData = ['', 'a', 'a', 'a', 'a']
+function* currentPropsDataGenerator(): IterableIterator<Char | void> {
+  const currentPropsData: Char[] = ['', 'a', 'a', 'a', 'a']
   for (let i = 0; i < currentPropsData.length; i++) {
     yield currentPropsData[i]
   }
@@ -14,11 +14,17 @@ const getProps = currentPropsDataGenerator()
 describe('Tile.vue', () => {
   let wrapper: Wrapper<Vue>
   beforeEach(() => {
-    const propsData = getProps.next().value
-    wrapper = shallowMount(Row, { propsData })
+    const propsData = { letter: getProps.next().value }
+    wrapper = shallowMount(Tile, { propsData })
   })
-  it('can be empty', () => {})
-  // it('can have a letter value', () => {})
+
+  it('can be empty', () => {
+    expect(wrapper.text()).toBe('')
+  })
+
+  it('can have a letter value', () => {
+    expect(wrapper.text()).toBe('a')
+  })
   // right here we will need to refactor how we store letter data
   // { value: letter, status: 'empty' | 'not-a-letter' | 'wrong-position' | 'right-position' }
   // it('can have an invalid letter', () => {})

@@ -18,10 +18,10 @@ import Row from './Row.vue'
   components: {
     Row,
   },
-  methods: {
-    ...mapGetters(['activeRow']),
-    ...mapActions(['incrementActiveRow', 'resetActiveRow']),
-  },
+  // methods: {
+  //   ...mapGetters(['activeRow']),
+  //   ...mapActions(['incrementActiveRow', 'resetActiveRow']),
+  // },
 })
 export default class Board extends Vue {}
 </script>

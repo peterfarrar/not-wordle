@@ -28,12 +28,13 @@ describe('Screen.vue', () => {
     }
     getters = {
       currentLetters: () => nextLetters.next().value,
+      allWords: () => [],
     }
     store = new Vuex.Store({
       getters,
       actions,
     })
-    wrapper = mount(Screen, { store, localVue })
+    wrapper = shallowMount(Screen, { store, localVue })
   })
   it('contains Board component(s)', () => {
     expect(wrapper.findComponent(Board).exists()).toBe(true)

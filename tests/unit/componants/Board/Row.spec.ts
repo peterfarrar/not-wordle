@@ -1,4 +1,4 @@
-import { createLocalVue, shallowMount, mount, Wrapper } from '@vue/test-utils'
+import { createLocalVue, mount, Wrapper } from '@vue/test-utils'
 import Vuex, { Store, ActionTree, GetterTree } from 'vuex'
 import Row from '@/components/Board/Row.vue'
 import Tile from '@/components/Board/Tile.vue'

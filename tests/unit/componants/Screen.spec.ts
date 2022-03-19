@@ -2,9 +2,18 @@ import { createLocalVue, shallowMount, mount, Wrapper } from '@vue/test-utils'
 import Vuex, { Store, ActionTree, GetterTree } from 'vuex'
 import Screen from '@/components/Screen.vue'
 import Board from '@/components/Board/Board.vue'
+import { Char } from '@/types'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+
+function* currentLettersGenerator(): IterableIterator<Char[] | void> {
+  const currentLetters = [['a'], ['a'], ['a'], ['a'], ['b', 'i', 'r', 'd', 's']] as Char[][]
+  for (let i = 0; i < currentLetters.length; i++) {
+    yield currentLetters[i]
+  }
+}
+const nextLetters = currentLettersGenerator()
 
 describe('Screen.vue', () => {
   let actions: ActionTree<unknown, unknown>
@@ -18,7 +27,7 @@ describe('Screen.vue', () => {
       removeLetterFromCurrentLetters: jest.fn(),
     }
     getters = {
-      currentLetters: () => ['b'],
+      currentLetters: () => nextLetters.next().value,
     }
     store = new Vuex.Store({
       getters,
@@ -62,29 +71,7 @@ describe('Screen.vue', () => {
     )
     expect(actions.removeLetterFromCurrentLetters).toHaveBeenCalled()
   })
-})
 
-describe('need new scope for getter mock', () => {
-  let actions: ActionTree<unknown, unknown>
-  let getters: GetterTree<unknown, unknown>
-  let store: Store<unknown>
-  // let wrapper: Wrapper<Vue>
-  beforeEach(() => {
-    actions = {
-      addLetterToCurrentLetters: jest.fn(),
-      addCurrentWordToAllWords: jest.fn(),
-      removeLetterFromCurrentLetters: jest.fn(),
-    }
-    getters = {
-      currentLetters: () => ['b', 'i', 'r', 'd', 's'],
-    }
-    store = new Vuex.Store({
-      getters,
-      actions,
-    })
-    mount(Screen, { store, localVue })
-  })
-  
   it('should add the current word to the store and clear thisWord[] when enter is pressed and there are five letters in thisWord', () => {
     window.dispatchEvent(
       new KeyboardEvent('keydown', {

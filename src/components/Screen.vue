@@ -41,7 +41,6 @@ export default class Screen extends Vue {
     const currentLetters = this.currentLetters()
     if (key.length == 1 || isChar(key)) {
       if (currentLetters.length < 5) {
-        console.log(key)
         this.addLetterToCurrentLetters(key as Char)
       }
     }

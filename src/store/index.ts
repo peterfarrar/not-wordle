@@ -40,6 +40,7 @@ export default new Vuex.Store({
             ],
           ]
           state.currentLetters = []
+          state.activeRow++
         }
       }
     },

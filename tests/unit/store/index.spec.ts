@@ -89,6 +89,7 @@ describe('activeRow', () => {
 describe('allWords', () => {
   beforeEach(() => {
     context.state.allWords = []
+    context.state.activeRow = 0
     context.state.currentLetters = []
   })
 
@@ -116,6 +117,7 @@ describe('allWords', () => {
     context.commit('addCurrentWordToAllWords')
     expect(context.getters.currentLetters.length).toBe(0)
     expect(context.getters.allWords.length).toBe(1)
+    expect(context.getters.activeRow).toBe(1)
     expect(context.getters.allWords).toEqual([
       [
         { value: 's', status: 'invalid-letter' },

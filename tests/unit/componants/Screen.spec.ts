@@ -8,7 +8,7 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 
 function* currentLettersGenerator(): IterableIterator<Char[] | void> {
-  const currentLetters = [['a'], ['a'], ['a'], ['a'], ['b', 'i', 'r', 'd', 's']] as Char[][]
+  const currentLetters = [[''], [''], ['a'], ['a'], ['b', 'i', 'r', 'd', 's']] as Char[][]
   for (let i = 0; i < currentLetters.length; i++) {
     yield currentLetters[i]
   }

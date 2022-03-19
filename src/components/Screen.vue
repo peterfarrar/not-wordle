@@ -17,7 +17,7 @@ import isChar from '@/types/isChar'
 
 @Component({
   methods: {
-    ...mapGetters(['currentLetters']),
+    ...mapGetters(['currentLetters', 'allWords']),
     ...mapActions([
       'addCurrentWordToAllWords',
       'addLetterToCurrentLetters',
@@ -34,13 +34,15 @@ export default class Screen extends Vue {
   addLetterToCurrentLetters!: (letter: Char) => void
   removeLetterFromCurrentLetters!: () => void
   currentLetters!: () => Char[]
+  allWords!: () => Char[][]
   activeRow!: () => number
 
   handleKeydown(event: KeyboardEvent): void {
     const key = event.key
     const currentLetters = this.currentLetters()
+    const allWords = this.allWords()
     if (key.length == 1 || isChar(key)) {
-      if (currentLetters.length < 5) {
+      if (currentLetters.length < 5 && allWords.length < 6) {
         this.addLetterToCurrentLetters(key as Char)
       }
     }

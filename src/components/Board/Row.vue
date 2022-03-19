@@ -10,20 +10,42 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import Tile from './Tile.vue'
+import { Char } from '@/types'
 
 @Component({
   components: {
     Tile,
   },
   methods: {
-    ...mapGetters(['currentLetters']),
-    ...mapActions(['addLetterToCurrentLetters', 'removeLetterFromCurrentLetters']),
+    ...mapGetters(['activeRow', 'currentLetters', 'allWords']),
   },
 })
 export default class Row extends Vue {
-  letters = ['', '', '', '', '']
+  currentLetters!: () => Char[]
+  allWords!: () => Char[][]
+  activeRow!: () => number
+
   @Prop() private rowId!: string
+
+  get letters(): Char[] {
+    const rowId = parseInt(this.rowId)
+    const activeRow = this.activeRow()
+    const allWords = this.allWords()
+    const currentLetters = this.currentLetters()
+
+    if (rowId > activeRow) {
+      return ['', '', '', '', ''] as Char[]
+    }
+
+    if (rowId == activeRow) {
+      return [0, 1, 2, 3, 4].map((i) => {
+        return currentLetters[i] ?? ('' as Char)
+      })
+    }
+
+    return allWords[rowId] ?? []
+  }
 }
 </script>

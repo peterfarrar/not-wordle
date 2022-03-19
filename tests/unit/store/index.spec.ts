@@ -95,6 +95,14 @@ describe('allWords', () => {
     context.commit('addCurrentWordToAllWords')
     expect(context.getters.currentLetters.length).toBe(0)
     expect(context.getters.allWords.length).toBe(1)
-    expect(context.getters.allWords).toEqual([['s', 't', 'e', 'a', 'm']])
+    expect(context.getters.allWords).toEqual([
+      [
+        { value: 's', status: 'invalid-letter' },
+        { value: 't', status: 'invalid-letter' },
+        { value: 'e', status: 'invalid-letter' },
+        { value: 'a', status: 'invalid-letter' },
+        { value: 'm', status: 'invalid-letter' },
+      ],
+    ])
   })
 })

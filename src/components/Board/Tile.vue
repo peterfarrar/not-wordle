@@ -1,18 +1,24 @@
 <template>
   <div :class="classes">
-    <h1>{{ letter }}</h1>
+    <h1>{{ tileContent }}</h1>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Char } from '@/types'
+import { TileData } from '@/types'
 
 @Component
 export default class Tile extends Vue {
-  bgcolor = 'empty'
-  classes = `tile ${this.bgcolor}`
-  @Prop() private letter!: Char
+  @Prop() private tileData!: TileData
+
+  get tileContent(): string {
+    return this.tileData.value
+  }
+
+  get classes(): string {
+    return `tile ${this.tileData.status}`
+  }
 }
 </script>
 
@@ -36,12 +42,18 @@ export default class Tile extends Vue {
   margin: 0.2rem;
 }
 
+.tile.active-entry {
+  background-color: #ffffff;
+  border-color: #878a8c;
+  color: #000000;
+}
+
 .tile.empty {
   background-color: #ffffff;
   border-color: #d3d6da;
 }
 
-.tile.not-a-letter {
+.tile.invalid-letter {
   background-color: #787c7e;
   border-color: #787c7e;
 }

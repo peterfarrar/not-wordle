@@ -31,3 +31,8 @@ export type KeyData = {
   label: Char | string
   type: string
 }
+
+export type TileData = {
+  value: Char
+  status: 'empty' | 'active-entry' | 'invalid-letter' | 'wrong-position' | 'right-position'
+}

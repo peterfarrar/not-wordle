@@ -2,12 +2,14 @@ import { createLocalVue, mount, Wrapper } from '@vue/test-utils'
 import Vuex, { Store, ActionTree, GetterTree } from 'vuex'
 import Row from '@/components/Board/Row.vue'
 import Tile from '@/components/Board/Tile.vue'
-import { Char } from '@/types'
+import { Char, TileData } from '@/types'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-function* currentRowGenerator(): IterableIterator<number | void> {
+const correctWord = 'steam'
+
+function * currentRowGenerator (): IterableIterator<number | void> {
   const currentRow = [0, 0, 1, 2, 4]
   for (let i = 0; i < currentRow.length; i++) {
     yield currentRow[i]
@@ -15,11 +17,22 @@ function* currentRowGenerator(): IterableIterator<number | void> {
 }
 const nextRow = currentRowGenerator()
 
-function* allWordsGenerator(): IterableIterator<Char[][] | void> {
-  const partial: Char[][] = [
-    ['s', 'n', 'a', 'k', 'e'],
-    ['b', 'i', 'r', 'd', 's'],
-    ['d', 'r'],
+function* allWordsGenerator(): IterableIterator<TileData[][] | void> {
+  const partial: TileData[][] = [
+    [
+      { value: 's', status: 'right-position' },
+      { value: 'n', status: 'invalid-letter' },
+      { value: 'a', status: 'wrong-position' },
+      { value: 'k', status: 'invalid-letter' },
+      { value: 'w', status: 'invalid-letter' },
+    ],
+    [
+      { value: 'b', status: 'invalid-letter' },
+      { value: 'i', status: 'invalid-letter' },
+      { value: 'r', status: 'invalid-letter' },
+      { value: 'd', status: 'invalid-letter' },
+      { value: 's', status: 'wrong-position' },
+    ],
   ]
 
   const allWords = [[], [], partial, partial, []]

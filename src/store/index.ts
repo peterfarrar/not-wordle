@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Char } from '@/types'
+import { Char, TileData } from '@/types'
 import words from './words'
 
 Vue.use(Vuex)
@@ -10,7 +10,7 @@ export default new Vuex.Store({
     words: words,
     currentLetters: [] as Char[],
     activeRow: 0 as number,
-    allWords: [] as Char[][],
+    allWords: [] as TileData[][],
   },
   mutations: {
     addLetterToCurrentLetters: (state, payload: Char) => {
@@ -33,7 +33,14 @@ export default new Vuex.Store({
     },
     addCurrentWordToAllWords: (state) => {
       if (state.allWords.length < 6 && state.currentLetters.length == 5) {
-        state.allWords = [...state.allWords, [...state.currentLetters]]
+        state.allWords = [
+          ...state.allWords,
+          [
+            ...state.currentLetters.map((letter: Char): TileData => {
+              return { value: letter, status: 'invalid-letter' }
+            }),
+          ],
+        ]
         state.currentLetters = []
       }
     },

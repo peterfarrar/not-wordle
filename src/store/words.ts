@@ -403,6 +403,7 @@ export default new Set<string>([
   'caped',
   'capes',
   'carat',
+  'cards',
   'cared',
   'carer',
   'cargo',

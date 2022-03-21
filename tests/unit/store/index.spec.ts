@@ -114,14 +114,25 @@ describe('allWords', () => {
     context.dispatch('addLetterToCurrentLetters', 'E')
     context.dispatch('addLetterToCurrentLetters', 'A')
     context.dispatch('addLetterToCurrentLetters', 'M')
-    context.commit('addCurrentWordToAllWords')
+    context.dispatch('addCurrentWordToAllWords')
     expect(context.getters.currentLetters.length).toBe(0)
     expect(context.getters.allWords.length).toBe(1)
     expect(context.getters.activeRow).toBe(1)
+    expect(context.getters.allWords.length).toBe(1)
+  })
+
+  it('determines the proper status for valid each letter', () => {
+    context.dispatch('setTheWord', 'shout')
+    context.dispatch('addLetterToCurrentLetters', 'S')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'E')
+    context.dispatch('addLetterToCurrentLetters', 'A')
+    context.dispatch('addLetterToCurrentLetters', 'M')
+    context.dispatch('addCurrentWordToAllWords')
     expect(context.getters.allWords).toEqual([
       [
-        { value: 's', status: 'invalid-letter' },
-        { value: 't', status: 'invalid-letter' },
+        { value: 's', status: 'right-position' },
+        { value: 't', status: 'wrong-position' },
         { value: 'e', status: 'invalid-letter' },
         { value: 'a', status: 'invalid-letter' },
         { value: 'm', status: 'invalid-letter' },

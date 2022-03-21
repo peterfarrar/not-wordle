@@ -1,10 +1,10 @@
 <template>
-  <div class="row">
-    <Tile :tileData="letters[0]"></Tile>
-    <Tile :tileData="letters[1]"></Tile>
-    <Tile :tileData="letters[2]"></Tile>
-    <Tile :tileData="letters[3]"></Tile>
-    <Tile :tileData="letters[4]"></Tile>
+  <div class="row" :id="ourRow">
+    <Tile tileId="1" :rowId="ourRow" :tileData="letters[0]"></Tile>
+    <Tile tileId="2" :rowId="ourRow" :tileData="letters[1]"></Tile>
+    <Tile tileId="3" :rowId="ourRow" :tileData="letters[2]"></Tile>
+    <Tile tileId="4" :rowId="ourRow" :tileData="letters[3]"></Tile>
+    <Tile tileId="5" :rowId="ourRow" :tileData="letters[4]"></Tile>
   </div>
 </template>
 
@@ -29,12 +29,15 @@ export default class Row extends Vue {
 
   @Prop() private rowId!: string
 
+  get ourRow(): number {
+    return parseInt(this.rowId)
+  }
+
   get letters(): TileData[] {
-    const rowId = parseInt(this.rowId)
+    const rowId = parseInt(this.rowId) - 1
     const activeRow = this.activeRow()
     const allWords = this.allWords()
     const currentLetters = this.currentLetters()
-
     if (rowId > activeRow) {
       return [
         { value: '', status: 'empty' },
@@ -65,3 +68,12 @@ export default class Row extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.row {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  text-align: left;
+}
+</style>

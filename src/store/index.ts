@@ -11,6 +11,7 @@ export default new Vuex.Store({
     currentLetters: [] as Char[],
     activeRow: 0 as number,
     allWords: [] as TileData[][],
+    theWord: 'place' as string,
   },
   mutations: {
     addLetterToCurrentLetters: (state, payload: Char) => {
@@ -31,11 +32,19 @@ export default new Vuex.Store({
     addCurrentWordToAllWords: (state) => {
       if (state.allWords.length < 6 && state.currentLetters.length == 5) {
         if (state.words.has(state.currentLetters.join(''))) {
+          const theseLetters = state.theWord.split('')
           state.allWords = [
             ...state.allWords,
             [
-              ...state.currentLetters.map((letter: Char): TileData => {
-                return { value: letter, status: 'invalid-letter' }
+              ...state.currentLetters.map((value: Char, i: number): TileData => {
+                let status = 'invalid-letter'
+                if (theseLetters.includes(value)) {
+                  status = 'wrong-position'
+                }
+                if (theseLetters[i] == value) {
+                  status = 'right-position'
+                }
+                return { value, status } as TileData
               }),
             ],
           ]
@@ -44,6 +53,9 @@ export default new Vuex.Store({
         }
       }
     },
+    setTheWord: (state, theWord: string) => {
+      state.theWord = theWord
+    },
   },
 
   actions: {
@@ -51,7 +63,6 @@ export default new Vuex.Store({
       context.commit('addLetterToCurrentLetters', payload.toLowerCase())
     },
     removeLetterFromCurrentLetters: (context) => {
-      console.log('In Store.removeLetterFromCurrentLetters')
       context.commit('removeLetterFromCurrentLetters')
     },
     incrementActiveRow: (context) => {
@@ -59,6 +70,9 @@ export default new Vuex.Store({
     },
     addCurrentWordToAllWords: (context) => {
       context.commit('addCurrentWordToAllWords')
+    },
+    setTheWord: (context, theWord: string) => {
+      context.commit('setTheWord', theWord)
     },
   },
   modules: {},

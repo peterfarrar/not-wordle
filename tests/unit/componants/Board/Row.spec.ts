@@ -2,14 +2,12 @@ import { createLocalVue, mount, Wrapper } from '@vue/test-utils'
 import Vuex, { Store, ActionTree, GetterTree } from 'vuex'
 import Row from '@/components/Board/Row.vue'
 import Tile from '@/components/Board/Tile.vue'
-import { Char, TileData } from '@/types'
+import { TileData } from '@/types'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-const correctWord = 'steam'
-
-function * currentRowGenerator (): IterableIterator<number | void> {
+function* currentRowGenerator(): IterableIterator<number | void> {
   const currentRow = [0, 0, 1, 2, 4]
   for (let i = 0; i < currentRow.length; i++) {
     yield currentRow[i]
@@ -24,7 +22,7 @@ function* allWordsGenerator(): IterableIterator<TileData[][] | void> {
       { value: 'n', status: 'invalid-letter' },
       { value: 'a', status: 'wrong-position' },
       { value: 'k', status: 'invalid-letter' },
-      { value: 'w', status: 'invalid-letter' },
+      { value: 'e', status: 'invalid-letter' },
     ],
     [
       { value: 'b', status: 'invalid-letter' },
@@ -35,7 +33,7 @@ function* allWordsGenerator(): IterableIterator<TileData[][] | void> {
     ],
   ]
 
-  const allWords = [[], [], partial, partial, []]
+  const allWords = [[], [], [], partial, []]
   for (let i = 0; i < allWords.length; i++) {
     yield allWords[i]
   }
@@ -58,7 +56,7 @@ describe('Row.vue', () => {
       getters,
       actions,
     })
-    const propsData = { rowId: 1 }
+    const propsData = { rowId: 2 }
 
     wrapper = mount(Row, { propsData, store, localVue })
   })
@@ -74,28 +72,28 @@ describe('Row.vue', () => {
 
   it('can be the current row', () => {
     const tiles = wrapper.findAllComponents(Tile)
-    expect(tiles.at(0).text()).toBe('b')
-    expect(tiles.at(1).text()).toBe('i')
-    expect(tiles.at(2).text()).toBe('r')
-    expect(tiles.at(3).text()).toBe('')
-    expect(tiles.at(4).text()).toBe('')
+    expect(tiles.at(0).find('.tile-face.front').text()).toBe('b')
+    expect(tiles.at(1).find('.tile-face.front').text()).toBe('i')
+    expect(tiles.at(2).find('.tile-face.front').text()).toBe('r')
+    expect(tiles.at(3).find('.tile-face.front').text()).toBe('')
+    expect(tiles.at(4).find('.tile-face.front').text()).toBe('')
   })
 
   it('can be the a completed row', () => {
     const tiles = wrapper.findAllComponents(Tile)
-    expect(tiles.at(0).text()).toBe('b')
-    expect(tiles.at(1).text()).toBe('i')
-    expect(tiles.at(2).text()).toBe('r')
-    expect(tiles.at(3).text()).toBe('d')
-    expect(tiles.at(4).text()).toBe('s')
+    expect(tiles.at(0).find('.tile-face.front').text()).toBe('b')
+    expect(tiles.at(1).find('.tile-face.front').text()).toBe('i')
+    expect(tiles.at(2).find('.tile-face.front').text()).toBe('r')
+    expect(tiles.at(3).find('.tile-face.front').text()).toBe('d')
+    expect(tiles.at(4).find('.tile-face.front').text()).toBe('s')
   })
 
   it('can be the an empty row', () => {
     const tiles = wrapper.findAllComponents(Tile)
-    expect(tiles.at(0).text()).toBe('')
-    expect(tiles.at(1).text()).toBe('')
-    expect(tiles.at(2).text()).toBe('')
-    expect(tiles.at(3).text()).toBe('')
-    expect(tiles.at(4).text()).toBe('')
+    expect(tiles.at(0).find('.tile-face.front').text()).toBe('')
+    expect(tiles.at(1).find('.tile-face.front').text()).toBe('')
+    expect(tiles.at(2).find('.tile-face.front').text()).toBe('')
+    expect(tiles.at(3).find('.tile-face.front').text()).toBe('')
+    expect(tiles.at(4).find('.tile-face.front').text()).toBe('')
   })
 })

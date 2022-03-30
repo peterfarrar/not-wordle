@@ -7,14 +7,33 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { mapActions, mapGetters } from 'vuex'
 import Screen from './components/Screen.vue'
+import words from './store/words'
 
 @Component({
   components: {
     Screen,
   },
+  methods: {
+    //   ...mapGetters(['activeRow']),
+    ...mapActions(['setTheWord']),
+  },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  setTheWord!: (word: string) => void
+  getTheWordIndex(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const today: any = new Date()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const epoch: any = new Date('1970-01-01T00:00:00.001Z')
+    return Math.floor(Math.abs(today - epoch) / 86400000) - 19081
+  }
+
+  created(): void {
+    this.setTheWord(words[this.getTheWordIndex()])
+  }
+}
 </script>
 
 <style>

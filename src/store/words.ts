@@ -1,4 +1,4 @@
-export default new Set<string>([
+export default [
   'furan',
   'drabs',
   'delos',
@@ -12973,4 +12973,4 @@ export default new Set<string>([
   'tabby',
   'midge',
   'genet',
-])
+]

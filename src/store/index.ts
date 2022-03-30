@@ -7,15 +7,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    words: words,
+    words: new Set<string>(words),
     currentLetters: [] as Char[],
     activeRow: 0 as number,
     allWords: [] as TileData[][],
     theWord: 'place' as string,
+    solved: false as boolean,
   },
   mutations: {
     addLetterToCurrentLetters: (state, payload: Char) => {
-      if (state.currentLetters.length < 5) {
+      if (state.currentLetters.length < 5 && state.solved == false) {
         state.currentLetters = [...state.currentLetters, payload]
       }
     },
@@ -48,6 +49,16 @@ export default new Vuex.Store({
               }),
             ],
           ]
+          if (
+            state.allWords[state.activeRow].reduce((acc, val): boolean => {
+              if (acc == true && val.status != 'right-position') {
+                return false
+              }
+              return acc
+            }, true)
+          ) {
+            state.solved = true
+          }
           state.currentLetters = []
           state.activeRow++
         }

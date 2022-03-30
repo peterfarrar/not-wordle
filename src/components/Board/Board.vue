@@ -11,17 +11,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapActions, mapGetters } from 'vuex'
 import Row from './Row.vue'
 
 @Component({
   components: {
     Row,
   },
-  // methods: {
-  //   ...mapGetters(['activeRow']),
-  //   ...mapActions(['incrementActiveRow']),
-  // },
 })
 export default class Board extends Vue {}
 </script>

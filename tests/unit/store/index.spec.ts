@@ -54,6 +54,19 @@ describe('currentLetters', () => {
     context.commit('removeLetterFromCurrentLetters')
     expect(context.getters.currentLetters.length).toBe(0)
   })
+
+  it('stops excepting letters when the word is guessed', () => {
+    context.dispatch('setTheWord', 'steam')
+    context.dispatch('addLetterToCurrentLetters', 'S')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'E')
+    context.dispatch('addLetterToCurrentLetters', 'A')
+    context.dispatch('addLetterToCurrentLetters', 'M')
+    context.dispatch('addCurrentWordToAllWords')
+
+    context.dispatch('addLetterToCurrentLetters', 'A')
+    expect(context.getters.currentLetters.length).toBe(0)
+  })
 })
 
 describe('activeRow', () => {

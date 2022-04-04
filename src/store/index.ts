@@ -13,6 +13,7 @@ export default new Vuex.Store({
     allWords: [] as TileData[][],
     theWord: 'place' as string,
     solved: false as boolean,
+    badWord: false as boolean,
   },
   mutations: {
     addLetterToCurrentLetters: (state, payload: Char) => {
@@ -61,6 +62,11 @@ export default new Vuex.Store({
           }
           state.currentLetters = []
           state.activeRow++
+        } else {
+          state.badWord = true
+          setTimeout(() => {
+            state.badWord = false
+          }, 600)
         }
       }
     },
@@ -97,5 +103,8 @@ export default new Vuex.Store({
     allWords: (store) => {
       return store.allWords
     },
+    badWord: (store) => {
+      return store.badWord
+    }
   },
 })

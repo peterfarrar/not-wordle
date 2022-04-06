@@ -1,18 +1,18 @@
 import { shallowMount, Wrapper } from '@vue/test-utils'
-import Board from '@/components/Board/Board.vue'
-import Row from '@/components/Board/Row.vue'
+import KeyBoard from '@/components/KeyBoard/KeyBoard.vue'
+import Row from '@/components/KeyBoard/Row.vue'
 
 describe('Screen.vue', () => {
   let wrapper: Wrapper<Vue>
   beforeEach(() => {
-    wrapper = shallowMount(Board)
+    wrapper = shallowMount(KeyBoard)
   })
   it('contains Row component(s)', () => {
     expect(wrapper.findComponent(Row).exists()).toBe(true)
   })
 
-  it('contains six rows', () => {
+  it('contains three rows', () => {
     const rows = wrapper.findAllComponents(Row)
-    expect(rows.length).toBe(6)
+    expect(rows.length).toBe(3)
   })
 })

@@ -43,60 +43,67 @@ const rowData = rowDataGenerator()
 // const nextAllWordsData = allWordsGenerator()
 
 describe('Row.vue', () => {
-  // let actions: ActionTree<unknown, unknown>
-  // let getters: GetterTree<unknown, unknown>
-  // let store: Store<unknown>
-  let wrapper: Wrapper<Vue>
-  beforeEach(() => {
-    // actions = {}
-    // getters = {
-    //   activeRow: () => nextRow.next().value,
-    //   currentLetters: () => ['b', 'i', 'r'],
-    //   allWords: () => nextAllWordsData.next().value,
-    // }
-    // store = new Vuex.Store({
-    //   getters,
-    //   actions,
+  describe('Top Row', () => {
+    // let actions: ActionTree<unknown, unknown>
+    // let getters: GetterTree<unknown, unknown>
+    // let store: Store<unknown>
+    let wrapper: Wrapper<Vue>
+    beforeEach(() => {
+      // actions = {}
+      // getters = {
+      //   activeRow: () => nextRow.next().value,
+      //   currentLetters: () => ['b', 'i', 'r'],
+      //   allWords: () => nextAllWordsData.next().value,
+      // }
+      // store = new Vuex.Store({
+      //   getters,
+      //   actions,
+      // })
+      const propsData = { keysData: row1Data }
+
+      // wrapper = mount(Row, { propsData, store, localVue })
+      wrapper = mount(Row, { propsData, localVue })
+    })
+
+    it('contains keys', () => {
+      expect(wrapper.findComponent(Key).exists()).toBe(true)
+    })
+
+    it('contains ten keys', () => {
+      const tiles = wrapper.findAllComponents(Key)
+      expect(tiles.length).toBe(10)
+    })
+
+    it('contains the correct keys', () => {
+      const keys = wrapper.findAllComponents(Key)
+      expect(keys.at(0).text()).toBe('Q')
+      expect(keys.at(1).text()).toBe('W')
+      expect(keys.at(2).text()).toBe('E')
+      expect(keys.at(3).text()).toBe('R')
+      expect(keys.at(4).text()).toBe('T')
+      expect(keys.at(5).text()).toBe('Y')
+      expect(keys.at(6).text()).toBe('U')
+      expect(keys.at(7).text()).toBe('I')
+      expect(keys.at(8).text()).toBe('O')
+      expect(keys.at(9).text()).toBe('P')
+    })
+
+    // it('can be the a completed row', () => {
+    //   const tiles = wrapper.findAllComponents(Tile)
+    //   expect(tiles.at(0).find('.tile-face.front').text()).toBe('b')
+    //   expect(tiles.at(1).find('.tile-face.front').text()).toBe('i')
+    //   expect(tiles.at(2).find('.tile-face.front').text()).toBe('r')
+    //   expect(tiles.at(3).find('.tile-face.front').text()).toBe('d')
+    //   expect(tiles.at(4).find('.tile-face.front').text()).toBe('s')
     // })
-    const propsData = { keysData: rowData.next().value as KeyData }
 
-    // wrapper = mount(Row, { propsData, store, localVue })
-    wrapper = mount(Row, { propsData, localVue })
+    // it('can be the an empty row', () => {
+    //   const tiles = wrapper.findAllComponents(Tile)
+    //   expect(tiles.at(0).find('.tile-face.front').text()).toBe('')
+    //   expect(tiles.at(1).find('.tile-face.front').text()).toBe('')
+    //   expect(tiles.at(2).find('.tile-face.front').text()).toBe('')
+    //   expect(tiles.at(3).find('.tile-face.front').text()).toBe('')
+    //   expect(tiles.at(4).find('.tile-face.front').text()).toBe('')
+    // })
   })
-
-  it('contains keys', () => {
-    expect(wrapper.findComponent(Key).exists()).toBe(true)
-  })
-
-  it('contains ten keys in the first row', () => {
-    const tiles = wrapper.findAllComponents(Key)
-    expect(tiles.length).toBe(10)
-  })
-
-  // it('can be the current row', () => {
-  //   const tiles = wrapper.findAllComponents(Tile)
-  //   expect(tiles.at(0).find('.tile-face.front').text()).toBe('b')
-  //   expect(tiles.at(1).find('.tile-face.front').text()).toBe('i')
-  //   expect(tiles.at(2).find('.tile-face.front').text()).toBe('r')
-  //   expect(tiles.at(3).find('.tile-face.front').text()).toBe('')
-  //   expect(tiles.at(4).find('.tile-face.front').text()).toBe('')
-  // })
-
-  // it('can be the a completed row', () => {
-  //   const tiles = wrapper.findAllComponents(Tile)
-  //   expect(tiles.at(0).find('.tile-face.front').text()).toBe('b')
-  //   expect(tiles.at(1).find('.tile-face.front').text()).toBe('i')
-  //   expect(tiles.at(2).find('.tile-face.front').text()).toBe('r')
-  //   expect(tiles.at(3).find('.tile-face.front').text()).toBe('d')
-  //   expect(tiles.at(4).find('.tile-face.front').text()).toBe('s')
-  // })
-
-  // it('can be the an empty row', () => {
-  //   const tiles = wrapper.findAllComponents(Tile)
-  //   expect(tiles.at(0).find('.tile-face.front').text()).toBe('')
-  //   expect(tiles.at(1).find('.tile-face.front').text()).toBe('')
-  //   expect(tiles.at(2).find('.tile-face.front').text()).toBe('')
-  //   expect(tiles.at(3).find('.tile-face.front').text()).toBe('')
-  //   expect(tiles.at(4).find('.tile-face.front').text()).toBe('')
-  // })
 })

@@ -32,7 +32,13 @@ export type KeyData = {
   type: string
 }
 
+export type LetterStatus =
+  | 'empty'
+  | 'active-entry'
+  | 'invalid-letter'
+  | 'wrong-position'
+  | 'right-position'
 export type TileData = {
   value: Char
-  status: 'empty' | 'active-entry' | 'invalid-letter' | 'wrong-position' | 'right-position'
+  status: LetterStatus
 }

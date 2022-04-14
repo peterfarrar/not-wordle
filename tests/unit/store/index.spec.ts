@@ -1,4 +1,5 @@
 import context from '@/store'
+import { Char, LetterStatus } from '@/types'
 
 describe('currentLetters', () => {
   beforeEach(() => {
@@ -151,5 +152,60 @@ describe('allWords', () => {
         { value: 'm', status: 'invalid-letter' },
       ],
     ])
+  })
+})
+
+describe('usedLetters', () => {
+  beforeEach(() => {
+    context.state.allWords = []
+    context.state.activeRow = 0
+    context.state.currentLetters = []
+    context.state.usedLetters = {} as Record<Char, LetterStatus>
+  })
+
+  it('adds a letters to usedLetters when a valid word is added to the allWords store', () => {
+    context.dispatch('setTheWord', 'shout')
+    context.dispatch('addLetterToCurrentLetters', 'S')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'E')
+    context.dispatch('addLetterToCurrentLetters', 'A')
+    context.dispatch('addLetterToCurrentLetters', 'M')
+    context.dispatch('addCurrentWordToAllWords')
+    const usedLetters = context.getters.getUsedLetters
+
+    expect(Object.keys(usedLetters).length).toBe(5)
+    expect(usedLetters).toHaveProperty('s')
+    expect(usedLetters).toHaveProperty('t')
+    expect(usedLetters).toHaveProperty('e')
+    expect(usedLetters).toHaveProperty('a')
+    expect(usedLetters).toHaveProperty('m')
+    expect(usedLetters).toMatchObject({
+      a: 'invalid-letter',
+      e: 'invalid-letter',
+      m: 'invalid-letter',
+      s: 'right-position',
+      t: 'wrong-position',
+    })
+  })
+})
+
+describe('isSolved', () => {
+  beforeEach(() => {
+    context.state.currentLetters = []
+  })
+  it('returns false when the puzzle is not yet solved', () => {
+    expect(context.getters.isSolved).toBe(false)
+  })
+
+  it('returns true when the puzzle is solved', () => {
+    context.dispatch('setTheWord', 'steam')
+    context.dispatch('addLetterToCurrentLetters', 'S')
+    context.dispatch('addLetterToCurrentLetters', 'T')
+    context.dispatch('addLetterToCurrentLetters', 'E')
+    context.dispatch('addLetterToCurrentLetters', 'A')
+    context.dispatch('addLetterToCurrentLetters', 'M')
+    context.dispatch('addCurrentWordToAllWords')
+
+    expect(context.getters.isSolved).toBe(true)
   })
 })

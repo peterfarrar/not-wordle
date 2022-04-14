@@ -1,13 +1,12 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-    <Screen msg="Welcome to Your Vue.js + TypeScript App" />
+    <Screen />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import Screen from './components/Screen.vue'
 import words from './store/words'
 
@@ -16,7 +15,6 @@ import words from './store/words'
     Screen,
   },
   methods: {
-    //   ...mapGetters(['activeRow']),
     ...mapActions(['setTheWord']),
   },
 })

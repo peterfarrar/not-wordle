@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Char, TileData } from '@/types'
+import { Char, TileData, LetterStatus } from '@/types'
 import words from './words'
 
 Vue.use(Vuex)
@@ -14,6 +14,7 @@ export default new Vuex.Store({
     theWord: 'place' as string,
     solved: false as boolean,
     badWord: false as boolean,
+    usedLetters: {} as Record<Char, LetterStatus>,
   },
   mutations: {
     addLetterToCurrentLetters: (state, payload: Char) => {
@@ -39,13 +40,14 @@ export default new Vuex.Store({
             ...state.allWords,
             [
               ...state.currentLetters.map((value: Char, i: number): TileData => {
-                let status = 'invalid-letter'
+                let status: LetterStatus = 'invalid-letter'
                 if (theseLetters.includes(value)) {
                   status = 'wrong-position'
                 }
                 if (theseLetters[i] == value) {
                   status = 'right-position'
                 }
+                state.usedLetters = { ...state.usedLetters, [value]: status }
                 return { value, status } as TileData
               }),
             ],
@@ -105,6 +107,12 @@ export default new Vuex.Store({
     },
     badWord: (store) => {
       return store.badWord
-    }
+    },
+    getUsedLetters: (store) => {
+      return store.usedLetters
+    },
+    isSolved: (store) => {
+      return store.solved
+    },
   },
 })

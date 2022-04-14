@@ -1,24 +1,49 @@
 <template>
-  <button :class="classes">
+  <button :id="id" v-bind:class="classes">
     {{ label }}
   </button>
 </template>
 
 <script lang="ts">
+import { Char, LetterStatus } from '@/types'
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { mapGetters } from 'vuex'
 
-@Component
+@Component({
+  methods: {
+    ...mapGetters(['getUsedLetters']),
+  },
+})
 export default class Key extends Vue {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getUsedLetters!: any
   @Prop() private label!: string
   @Prop() private type!: string
-  bgcolor = 'empty'
   size = this.type || 'letter'
-  classes = `key ${this.size} ${this.bgcolor}`
+  id = `${this.label.toUpperCase()}-key`
+
+  get classes(): string {
+    const usedLetters: Record<Char, LetterStatus> = this.getUsedLetters()
+    const status = usedLetters[this.label.toLowerCase() as Char] || 'empty'
+    const bgcolor = this.label.length != 1 ? 'empty' : status
+    const classes = `key ${this.size} ${bgcolor}`
+    if (status == 'empty') {
+      return classes
+    }
+    const key = document.getElementById(`${this.label}-key`)
+    if (key) {
+      setTimeout(() => {
+        key.className = classes
+      }, 1500)
+      return key.className
+    }
+    return ''
+  }
 }
 </script>
 
 <style scoped>
-button.key {
+.key {
   font-family: inherit;
   font-weight: bold;
   border: 0;
@@ -46,7 +71,7 @@ button.key {
 .key.letter {
   width: 44px;
 }
-.key.not-a-letter {
+.key.invalid-letter {
   background-color: #787c7e;
   border-color: #787c7e;
   color: #ffffff;
@@ -64,7 +89,8 @@ button.key {
   color: #ffffff;
 }
 
-.key.enter, .key.delete {
+.key.enter,
+.key.delete {
   width: 68px;
   color: #000000;
 }

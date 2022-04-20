@@ -38,6 +38,7 @@ export type LetterStatus =
   | 'invalid-letter'
   | 'wrong-position'
   | 'right-position'
+
 export type TileData = {
   value: Char
   status: LetterStatus

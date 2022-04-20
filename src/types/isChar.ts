@@ -27,6 +27,7 @@ const chars = [
   'z',
   '',
 ]
+
 export default (field: string): boolean => {
   if (chars.includes(field)) {
     return true

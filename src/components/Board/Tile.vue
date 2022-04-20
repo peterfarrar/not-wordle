@@ -1,7 +1,10 @@
 <template>
-  <div class="tile">
+  <div class="tile" :id="`row-${rowId}-tile-${tileId}`">
     <div v-if="flipTheTiles">
       {{ rotateTile() }}
+    </div>
+    <div v-if="itsSolved">
+      {{ bounceTile() }}
     </div>
     <div :id="`row-${rowId}-tile-${tileId}-front`" :class="frontClasses">
       <h1>{{ tileData.value }}</h1>
@@ -19,12 +22,13 @@ import { TileData } from '@/types'
 
 @Component({
   methods: {
-    ...mapGetters(['activeRow', 'allWords']),
+    ...mapGetters(['activeRow', 'allWords', 'isSolved']),
   },
 })
 export default class Tile extends Vue {
   activeRow!: () => number
   allWords!: () => TileData[]
+  isSolved!: () => boolean
 
   @Prop() private tileData!: TileData
   @Prop() private tileId!: string
@@ -42,6 +46,20 @@ export default class Tile extends Vue {
         back && (back.style.transform = 'rotateY(-180deg)')
       }
     }, 200 * parseInt(this.tileId))
+  }
+
+  bounceTile(): void {
+    setTimeout(() => {
+      const activeRow = this.activeRow()
+      const tileId = `row-${activeRow}-tile-${this.tileId}`
+      if (document) {
+        const tile = document.getElementById(tileId)
+        tile && tile.classList.add('bounce')
+        setTimeout(() => {
+          tile && tile.classList.remove('bounce')
+        }, 1200)
+      }
+    }, 1600 + (100 * parseInt(this.tileId)))
   }
 
   get tileContent(): string {
@@ -66,6 +84,10 @@ export default class Tile extends Vue {
     const allWords = this.allWords()
     const thisRowIndex = parseInt(this.rowId) - 1
     return allWords[thisRowIndex] ? true : false
+  }
+
+  get itsSolved(): boolean {
+    return this.isSolved()
   }
 }
 </script>
@@ -133,5 +155,32 @@ export default class Tile extends Vue {
 .tile-face.right-position {
   background-color: #6aaa64;
   border-color: #6aaa64;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-20px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.bounce {
+  animation: bounce 600ms;
+  animation-iteration-count: infinite;
+  transform: translateX(0px);
 }
 </style>

@@ -1,4 +1,4 @@
-# not-wordle-2
+# not-wordle
 
 ## Project setup
 ```

@@ -57,9 +57,9 @@ export default class Tile extends Vue {
         tile && tile.classList.add('bounce')
         setTimeout(() => {
           tile && tile.classList.remove('bounce')
-        }, 1200)
+        }, 600)
       }
-    }, 1600 + (100 * parseInt(this.tileId)))
+    }, 1600 + 100 * parseInt(this.tileId))
   }
 
   get tileContent(): string {
@@ -159,22 +159,22 @@ export default class Tile extends Vue {
 
 @keyframes bounce {
   0% {
-    transform: translateY(0);
+    transform: scale(1, 1) translateY(0);
   }
   10% {
-    transform: translateY(0);
+    transform: scale(1.1, 0.9) translateY(0);
   }
   30% {
-    transform: translateY(-20px);
+    transform: scale(0.9, 1.1) translateY(-20px);
   }
   50% {
-    transform: translateY(0);
+    transform: scale(1.05, 0.95) translateY(0);
   }
   70% {
-    transform: translateY(-6px);
+    transform: scale(0.95, 1.05) translateY(-6px);
   }
   100% {
-    transform: translateY(0);
+    transform: scale(1, 1) translateY(0);
   }
 }
 

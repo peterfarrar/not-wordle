@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>Not Wordle</h1>
+    <Answer />
     <Board />
     <KeyBoard />
   </div>
@@ -9,6 +10,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { mapActions, mapGetters } from 'vuex'
+import Answer from '@/components/Answer.vue'
 import Board from '@/components/Board/Board.vue'
 import KeyBoard from '@/components/KeyBoard/KeyBoard.vue'
 import { Char } from '@/types'
@@ -25,6 +27,7 @@ import isChar from '@/types/isChar'
     ]),
   },
   components: {
+    Answer,
     Board,
     KeyBoard,
   },

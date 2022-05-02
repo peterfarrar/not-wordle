@@ -114,5 +114,8 @@ export default new Vuex.Store({
     isSolved: (store) => {
       return store.solved
     },
+    getTheWord: (store) => {
+      return store.theWord
+    },
   },
 })

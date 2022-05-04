@@ -74,6 +74,7 @@ h1 {
   font-family: 'Times New Roman', Times, serif;
   font-size: 37px;
   font-weight: 900;
+  margin-bottom: 6vh;
 }
 h3 {
   margin: 20px 0 0 0;

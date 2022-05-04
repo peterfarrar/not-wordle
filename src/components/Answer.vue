@@ -1,5 +1,5 @@
 <template>
-  <div :class="classList">{{ theAnswer }}</div>
+  <div :class="classList" id="the-answer">{{ theAnswer }}</div>
 </template>
 
 <script lang="ts">
@@ -30,19 +30,34 @@ export default class Answer extends Vue {
       theAnswer = 'Great!'
     }
     if (rowsFilled == 5) {
-      theAnswer = 'Close!'
+      theAnswer = 'Close call!'
     }
     if (rowsFilled == 6) {
       theAnswer = this.getTheWord()
     }
     if (rowsFilled == 6 && this.isSolved()) {
-      theAnswer = 'Phew'
+      theAnswer = 'Phew!'
     }
     return theAnswer
   }
 
   get classList(): string {
-    return this.allWords().length == 6 || this.isSolved() ? 'end-game visible' : 'end-game'
+    if (this.allWords().length == 6 || this.isSolved()) {
+      setTimeout(() => {
+        const answer = document.getElementById('the-answer')
+        // answer && answer.classList.remove('game-over')
+        answer && answer.classList.add('visible')
+        setTimeout(() => {
+          answer && answer.classList.add('invisible')
+          answer && answer.classList.remove('visible')
+          setTimeout(() => {
+            answer && answer.classList.remove('invisible')
+          }, 1900)
+        }, 4800)
+      }, 1600)
+    }
+    return 'end-game'
+    // return this.allWords().length == 6 || this.isSolved() ? 'end-game game-over' : 'end-game'
   }
 }
 </script>
@@ -51,12 +66,19 @@ export default class Answer extends Vue {
 .end-game.visible {
   visibility: visible;
   z-index: 100;
+  animation: fadeIn ease 2s;
+}
+
+.end-game.invisible {
+  visibility: visible;
+  z-index: 100;
+  animation: fadeOut ease 2s;
 }
 
 .end-game {
   visibility: hidden;
   position: absolute;
-  top: 8%;
+  top: 9%;
   left: 50%;
   background-color: #000000;
   color: #fff;
@@ -68,5 +90,23 @@ export default class Answer extends Vue {
   border-radius: 0.4vh;
   width: fit-content;
   transform: translate(-50%, 0);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 </style>

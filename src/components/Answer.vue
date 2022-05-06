@@ -45,7 +45,6 @@ export default class Answer extends Vue {
     if (this.allWords().length == 6 || this.isSolved()) {
       setTimeout(() => {
         const answer = document.getElementById('the-answer')
-        // answer && answer.classList.remove('game-over')
         answer && answer.classList.add('visible')
         setTimeout(() => {
           answer && answer.classList.add('invisible')
@@ -57,7 +56,6 @@ export default class Answer extends Vue {
       }, 1600)
     }
     return 'end-game'
-    // return this.allWords().length == 6 || this.isSolved() ? 'end-game game-over' : 'end-game'
   }
 }
 </script>
